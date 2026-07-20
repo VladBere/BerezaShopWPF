@@ -1,0 +1,87 @@
+﻿<Window x:Class="MonksCafeWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Monk's Cafe" Height="520" Width="720" WindowStartupLocation="CenterScreen"
+        Background="#F0F8FF">
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="5">
+            <Label Content="Monk's Cafe" FontSize="22" FontWeight="Bold" Foreground="#000080" HorizontalAlignment="Center"/>
+
+            <GroupBox Header="Додати товар" Margin="0,10,0,0" BorderBrush="#4682B4" BorderThickness="2">
+                <StackPanel Margin="5">
+                    <Label Content="Назва (3-20 символів):"/>
+                    <TextBox x:Name="TxtDescription" Height="24" Background="#FFFFFF"/>
+
+                    <Label Content="Ціна ($):"/>
+                    <TextBox x:Name="TxtPrice" Height="24" Background="#FFFFFF"/>
+
+                    <Button x:Name="BtnAdd" Content="Додати" Height="28" Margin="0,10,0,0" Background="#4682B4" Foreground="White" Click="BtnAdd_Click"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Чайові" Margin="0,10,0,0" BorderBrush="#4682B4" BorderThickness="2">
+                <StackPanel Margin="5">
+                    <RadioButton x:Name="RbPercentage" Content="У відсотках (%)" IsChecked="True"/>
+                    <RadioButton x:Name="RbAmount" Content="Фіксована сума ($)" Margin="0,5,0,0"/>
+
+                    <TextBox x:Name="TxtTipValue" Height="24" Margin="0,10,0,0" Background="#FFFFFF"/>
+                    <Button x:Name="BtnApplyTip" Content="Застосувати чайові" Height="28" Margin="0,10,0,0" Background="#4682B4" Foreground="White" Click="BtnApplyTip_Click"/>
+                </StackPanel>
+            </GroupBox>
+
+            <Button x:Name="BtnSave" Content="Зберегти у файл" Height="28" Margin="0,20,0,5" Background="#2E8B57" Foreground="White" Click="BtnSave_Click"/>
+            <Button x:Name="BtnLoad" Content="Завантажити з файлу" Height="28" Background="#DAA520" Foreground="White" Click="BtnLoad_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="10,5,5,5">
+            <Label Content="Поточний чек:" FontWeight="Bold" Foreground="#000080" FontSize="14"/>
+
+            <ListView x:Name="LvBill" Height="220" BorderBrush="#4682B4" BorderThickness="1" Background="#FFFFFF">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Назва" Width="210" DisplayMemberBinding="{Binding Description}"/>
+                        <GridViewColumn Header="Ціна" Width="110" DisplayMemberBinding="{Binding Price}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
+                <Button x:Name="BtnRemove" Content="Видалити вибране" Width="130" Height="28" Background="#CD5C5C" Foreground="White" Click="BtnRemove_Click"/>
+                <Button x:Name="BtnClear" Content="Очистити все" Width="110" Height="28" Margin="15,0,0,0" Background="#808080" Foreground="White" Click="BtnClear_Click"/>
+            </StackPanel>
+
+            <GroupBox Header="Підсумки" Margin="0,15,0,0" BorderBrush="#4682B4" BorderThickness="2">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Сума товарів:" Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock x:Name="LblNetTotal" Text="$0.00" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+
+                    <Label Content="Чайові:" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock x:Name="LblTipAmount" Text="$0.00" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+
+                    <Label Content="Податок (GST 5%):" Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock x:Name="LblGstAmount" Text="$0.00" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+
+                    <Label Content="РАЗОМ ДО СПЛАТИ:" Grid.Row="3" Grid.Column="0" FontWeight="Bold" Foreground="#000080" VerticalAlignment="Bottom"/>
+                    <TextBlock x:Name="LblTotalAmount" Text="$0.00" Grid.Row="3" Grid.Column="1" FontWeight="Bold" FontSize="16" Foreground="#000080" VerticalAlignment="Bottom"/>
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</Window>
