@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace BerezaShop
 {
@@ -123,6 +125,49 @@ namespace BerezaShop
             catch (Exception ex)
             {
                 MessageBox.Show($"Помилка при очищенні: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (_items.Count == 0)
+                {
+                    MessageBox.Show("Немає даних для збереження.", "Інформація", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "CSV Файли (*.csv)|*.csv|Текстові файли (*.txt)|*.txt",
+                    DefaultExt = "csv",
+                    FileName = "Bill.csv"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        foreach (var item in _items)
+                        {
+                            writer.WriteLine($"{item.Description},{item.Price.ToString(CultureInfo.InvariantCulture)}");
+                        }
+                    }
+                    MessageBox.Show("Файл успішно збережено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Відсутній доступ для запису у цей файл чи папку.", "Помилка доступу", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show($"Файл зайнятий іншим процесом або виникла помилка вводу/виводу:\n{ex.Message}", "Помилка файлу", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Невідома помилка при збереженні:\n{ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
