@@ -2,7 +2,7 @@
 
 > Graphical WPF application for managing a shop bill — KhAI summer practice, group **611п**.
 
-Repository: [GITHUB_USERNAME/BerezaShop](https://github.com/GITHUB_USERNAME/BerezaShop)
+Repository: [VladBere/BerezaShop](https://github.com/VladBere/BerezaShop)
 
 ## Features
 
