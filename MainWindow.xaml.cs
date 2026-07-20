@@ -76,6 +76,42 @@ namespace BerezaShop
             }
         }
 
+        private void BtnApplyTip_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (_items.Count == 0)
+                {
+                    MessageBox.Show("Рахунок порожній. Неможливо додати чайові.", "Інформація", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                if (!decimal.TryParse(TxtTipValue.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal tipInput) || tipInput < 0)
+                {
+                    MessageBox.Show("Введіть коректне значення для чайових.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                decimal netTotal = _items.Sum(i => i.Price);
+
+                if (RbPercentage.IsChecked == true)
+                {
+                    _tipAmount = netTotal * (tipInput / 100m);
+                }
+                else if (RbAmount.IsChecked == true)
+                {
+                    _tipAmount = tipInput;
+                }
+
+                UpdateTotals();
+                TxtTipValue.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при розрахунку чайових: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             try
