@@ -55,6 +55,41 @@ namespace BerezaShop
             }
         }
 
+        private void BtnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (LvBill.SelectedItem is MenuItem selectedItem)
+                {
+                    _items.Remove(selectedItem);
+                    if (_items.Count == 0) _tipAmount = 0;
+                    UpdateTotals();
+                }
+                else
+                {
+                    MessageBox.Show("Будь ласка, виберіть товар зі списку для видалення.", "Інформація", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при видаленні: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _items.Clear();
+                _tipAmount = 0;
+                UpdateTotals();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при очищенні: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void UpdateTotals()
         {
             decimal netTotal = _items.Sum(i => i.Price);
